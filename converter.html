@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Conversor Python para PHP</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <style>
+
+            body {
+                padding: 0;
+                margin: 0;
+            }
+
+            div {
+                display: block;
+                width: 33%;
+                height: 50%;
+                /*height: 200px;*/
+                float: left;
+            }
+            
+            textarea {
+                display: block;
+                width: 100%;
+                /*height: 50%;*/
+                height: 200px;
+                /*float: left;*/
+            }
+        </style>
+
+    </head>
+    <body>
+        <div>
+            <label>Python</label>
+            <textarea id="code-python"></textarea>
+        </div>
+        <div>
+            <label>PHP</label>
+            <textarea id="code-php"></textarea>
+        </div>
+        <div>
+            <label>Javascript</label>
+            <textarea id="code-javascript"></textarea>
+        </div>
+        <div>
+            <label>Java</label>
+            <textarea id="code-java"></textarea>
+        </div>
+        <div>
+            <label>Dart</label>
+            <textarea id="code-dart"></textarea>
+        </div>
+        <div>
+            <label>C</label>
+            <textarea id="code-c"></textarea>
+        </div>
+        <div>
+            <label>C++</label>
+            <textarea id="code-cpp"></textarea>
+        </div>
+        <div>
+            <label>Arduino C++</label>
+            <textarea id="code-cpp-arduino"></textarea>
+        </div>
+        <div>
+            <label>C#</label>
+            <textarea id="code-csharp"></textarea>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
+        <script>
+            $(function () {
+                $('#code-python').keyup(function () {
+                    
+                    var python=$('#code-python').val();
+                    
+                    python = python.replace(/;/g, ' ');
+                    python = python.replace(/{/g, ' ');
+                    python = python.replace(/}/g, ' ');
+                    
+                    $('#code-python').val(python);
+                    
+                    python2PHP();
+                    PHP2Java();
+                    Java2Cpp();
+                    Java2Dart();
+                    Java2Javascript();
+                });
+                $('#code-php').keyup(function () {
+                    
+                    var php=$('#code-php').val();
+                    
+//                    php = php.replace(/;/g, ' ');
+//                    php = php.replace(/{/g, ' ');
+//                    php= php.replace(/}/g, ' ');
+                    
+                    $('#code-php').val(php);
+                    
+//                    cpp2Java();
+//                    python2PHP();
+                    PHP2Java();
+                    Java2Cpp();
+                    Java2Dart();
+                    Java2Javascript();
+//                    javascript2php();
+                    javascript2python();
+                });
+                $('#code-cpp').keyup(function () {
+                    
+                    var cpp=$('#code-cpp').val();
+                    
+//                    cpp = cpp.replace(/;/g, ' ');
+//                    cpp = cpp.replace(/{/g, ' ');
+//                    cpp = cpp.replace(/}/g, ' ');
+                    
+                    $('#code-cpp').val(cpp);
+                    
+                    cpp2Java();
+//                    python2PHP();
+//                    PHP2Java();
+                    Java2Cpp();
+                    Java2Dart();
+                    Java2Javascript();
+                    javascript2php();
+                    javascript2python();
+                });
+            });
+
+            function python2PHP() {
+                var pythonCode = $('#code-python').val();
+
+                var sp = pythonCode.split(' ');
+
+                pythonCode = '';
+                for (var i = 0; i < sp.length; i++) {
+
+                    if (
+                        sp[i] != 'def' && 
+                        sp[i] != 'if' && 
+                        sp[i] != 'elif' && 
+                        sp[i] != 'while' && 
+                        sp[i] != 'for' && 
+                        sp[i] != '(' && 
+                        sp[i] != ')'
+                    ) {
+                        pythonCode += '$' + sp[i] + '; ';
+                    } else {
+                        pythonCode += sp[i] + ' ';
+                    }
+
+                }
+                
+                // Lógica para detectar e converter condicionais if e else
+                pythonCode = pythonCode.replace(/if\s+\((.*?)\)\s*:/g, 'if ($1) {');
+                pythonCode = pythonCode.replace(/else\s*:/g, '} else {');
+
+
+                // Substituições básicas para converter funções Python em PHP
+                var phpCode = pythonCode.replace(/def /g, 'function '); // Substitui 'def' por 'function'
+                phpCode = phpCode.replace(/:/g, ' {'); // Adiciona '{' no lugar de ':'
+                phpCode = phpCode.replace(/print\((['"])(.*?)\1\)/g, "echo $1$2$1;");
+
+                //phpCode += "\n}"; // Adiciona '}' ao final do código
+
+
+
+
+                $('#code-php').val('<?php\n' + phpCode);
+            }
+
+            function PHP2Java() {
+                var phpCode = $('#code-php').val();
+
+                // Substituições básicas para converter funções PHP em Java
+                var javaCode = phpCode;
+                javaCode = javaCode.replace(/function /g, 'void '); // Substitui 'function' por 'void'
+                javaCode = javaCode.replace(/<\?php/g, '');
+                javaCode = javaCode.replace(/\n/g, '');
+
+                // Substitui todas as ocorrências de $ por String
+                javaCode = javaCode.replace(/\$/g, 'String ');
+
+                // Substituições para identificar e converter tipos de dados específicos
+                javaCode = javaCode.replace(/String\s+((?:[a-zA-Z_][a-zA-Z0-9_]*))\s*=\s*(\d+);/g, 'int $1 = $2;');
+                javaCode = javaCode.replace(/String\s+((?:[a-zA-Z_][a-zA-Z0-9_]*))\s*=\s*(\d+\.\d+);/g, 'double $1 = $2;');
+                javaCode = javaCode.replace(/String\s+((?:[a-zA-Z_][a-zA-Z0-9_]*))\s*=\s*'([^']+)';/g, 'String $1 = "$2";');
+                javaCode = javaCode.replace(/echo\s+'([^']+)';/g, 'System.out.println("$1");');
+
+                $('#code-java').val(javaCode);
+            }
+
+
+            function Java2Cpp() {
+                var javaCode = $('#code-java').val();
+
+                var cppCode = javaCode;
+                
+//                cppCode = cppCode.replace(/\$/g, 'String ');
+//                cppCode = 'void setup(){}\n\nvoid loop(){\n    '+cppCode+'\n}';
+
+                $('#code-cpp').val(cppCode);
+            }
+            function cpp2Java() {
+                var cppCode = $('#code-cpp').val();
+
+                var javaCode = cppCode;
+
+                $('#code-java').val(javaCode);
+            }
+            function javascript2php() {
+                var javascriptCode = $('#code-javascript').val();
+
+                var phpCode = javascriptCode;
+                
+                phpCode = phpCode.replace(/var /g, '\$');
+
+                $('#code-php').val('<?php\n'+phpCode);
+            }
+            function javascript2python() {
+                var javascriptCode = $('#code-javascript').val();
+
+                var pythonCode = javascriptCode;
+                
+                pythonCode = pythonCode.replace(/var /g, '');
+                pythonCode = pythonCode.replace(/;/g, '');
+                pythonCode = pythonCode.replace(/{/g, ':');
+                pythonCode = pythonCode.replace(/}/g, '');
+
+                $('#code-python').val(pythonCode);
+            }
+            function Java2Dart() {
+                var javaCode = $('#code-java').val();
+
+                var dartCode = javaCode;
+
+                $('#code-dart').val(dartCode);
+            }
+            function Java2Javascript() {
+                var javaCode = $('#code-java').val();
+
+                var javascriptCode = javaCode;
+                
+                
+                javascriptCode = javascriptCode.replace(/String /g, 'var ');
+                javascriptCode = javascriptCode.replace(/int /g, 'var ');
+                javascriptCode = javascriptCode.replace(/double /g, 'var ');
+
+                $('#code-javascript').val(javascriptCode);
+            }
+            
+            
+        </script>
+    </body>
+</html>

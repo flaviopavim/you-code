@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>YouCode</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <style>
+            body {
+                font-family: 'Arial', 'Sans Serif';
+                font-size: 14px;
+            }
+            .br {
+                clear: both;
+            }
+            .row {
+                display: block;
+                margin: 0 -15px;
+                box-sizing: border-box;
+            }
+            .col-15,
+            .col-20,
+            .col-50,
+            .col-80,
+            .col-85 {
+                display: block;
+                float: left;
+                padding: 0 15px;
+                box-sizing: border-box;
+            }
+            .col-15 {
+                width: 15%;
+            }
+            .col-20 {
+                width: 20%;
+            }
+            .col-50 {
+                width: 50%;
+            }
+            .col-80 {
+                width: 80%;
+            }
+            .col-85 {
+                width: 85%;
+            }
+            .code-link {
+                display: table;
+                padding: 8px;
+                background-color: #eee;
+                margin-bottom: 1px;
+                text-decoration: none;
+                float: left;
+            }
+            .code-link:hover {
+                background-color: #ddd;
+            }
+            .code-link:hover,
+            .code-link:link,
+            .code-link:active,
+            .code-link {
+                color: #999;
+            }
+            .code-container {
+                margin: 20px 0;
+                border: 1px solid #ccc;
+                padding: 10px;
+            }
+            .code-title {
+                font-weight: bold;
+                margin-bottom: 15px;
+            }
+            .code-body {
+                white-space: pre-wrap;
+                font-family: monospace;
+            }
+            .add-column-form {
+                margin-top: 10px;
+            }
+            .add-column-form input[type="text"],
+            .add-column-form select {
+                width: 150px;
+                margin-right: 10px;
+            }
+            .add-column-form button {
+                padding: 5px 10px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                cursor: pointer;
+            }
+
+
+
+            .column-item {
+                margin-bottom: 10px;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                overflow: hidden;
+            }
+            .column-item span {
+                display: inline-block;
+                width: 80%;
+            }
+            .column-item button {
+                float: right;
+                padding: 3px 10px;
+                background-color: #f44336;
+                color: white;
+                border: none;
+                cursor: pointer;
+                border-radius: 4px;
+            }
+            .column-item button:hover {
+                background-color: #cc0000;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="col-15">
+            <a href="#" class="code-link" data-type="left-join">LEFT JOIN</a>
+            <a href="#" class="code-link" data-type="where">WHERE</a>
+            <a href="#" class="code-link" data-type="group-by">GROUP BY</a>
+            <a href="#" class="code-link" data-type="order-by">ORDER BY</a>
+            <a href="#" class="code-link" data-type="limit">LIMIT</a>
+
+            <div class="br" style="height: 30px;"></div>
+
+            <div class="row">
+                <div class="col-20">
+                    Table
+                </div>
+                <div class="col-80">
+                    <input type="text" class="input" id="tableName" value="tableName">
+                </div>
+            </div>
+            <div class="br"></div>
+
+            <div class="row">
+                <div class="col-20">
+                    Table 2
+                </div>
+                <div class="col-80">
+                    <input type="text" class="input" id="otherTableName" value="otherTableName">
+                </div>
+            </div>
+            <div class="br"></div>
+
+<!--            <div class="row">
+                <div class="col-20">
+                    Table
+                </div>
+                <div class="col-80">
+                    <input type="text" class="input" id="otherTableName" value="otherTableName">
+                </div>
+            </div>
+            <div class="br"></div>-->
+
+            <div class="row">
+                <div class="col-20">
+                    Indent
+                </div>
+                <div class="col-80">
+                    <input type="text" class="input" id="indent" value="    ">
+                </div>
+            </div>
+
+            <div class="br" style="height: 30px;"></div>
+
+            <div class="row add-column-form">
+                <div class="col-20">
+                    Add Column
+                </div>
+                <div class="col-80">
+                    <input type="text" id="columnName" placeholder="Column Name">
+                    <select id="columnType">
+                        <option value="INT">INT</option>
+                        <option value="TINYINT">TINYINT</option>
+                        <option value="VARCHAR">VARCHAR</option>
+                        <option value="TEXT">TEXT</option>
+                        <option value="DATETIME">DATETIME (YYYY-mm-dd)</option>
+                        <option value="DECIMAL">DECIMAL</option>
+                    </select>
+                    <input type="text" id="columnSize" placeholder="Size (optional)">
+                    <button onclick="addColumn()">Add</button>
+                </div>
+            </div>
+
+            <div class="br" style="height: 30px;"></div>
+
+            <div id="column-list-body"></div>
+
+        </div>
+        <div class="col-85">
+            <div class="col-50">
+                <div id="code-create" class="code-container">
+                    <div class="code-title">CREATE</div>
+                    <div class="code-body"></div>
+                </div>
+            </div>
+            <div class="col-50">
+                <div id="code-insert" class="code-container">
+                    <div class="code-title">INSERT</div>
+                    <div class="code-body"></div>
+                </div>
+            </div>
+            <div class="col-50">
+                <div id="code-select" class="code-container">
+                    <div class="code-title">SELECT</div>
+                    <div class="code-body"></div>
+                </div>
+            </div>
+            <div class="col-50">
+                <div id="code-update" class="code-container">
+                    <div class="code-title">UPDATE</div>
+                    <div class="code-body"></div>
+                </div>
+            </div>
+            <div class="col-50">
+                <div id="code-delete" class="code-container">
+                    <div class="code-title">DELETE</div>
+                    <div class="code-body"></div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Variáveis globais para armazenar os códigos
+            var htmlCreate, htmlInsert, htmlSelect, htmlUpdate, htmlDelete;
+
+            // Configurações
+            var indent;
+            var tableName = 'tableName';
+            var otherTableName = 'otherTableName';
+            var columns = [
+                {
+                    name: 'url',
+                    type: 'VARCHAR',
+                    size: 1024,
+                }, {
+                    name: 'title',
+                    type: 'VARCHAR',
+                    size: 128,
+                }, {
+                    name: 'description',
+                    type: 'TEXT',
+                    size: 1024,
+                }, {
+                    name: 'datetime',
+                    type: 'DATETIME'
+                }, {
+                    name: 'created_at',
+                    type: 'DATETIME'
+                }, {
+                    name: 'published_at',
+                    type: 'DATETIME'
+                }
+            ];
+
+            var boolLeftJoin = true;
+            var boolOrderBy = true;
+            var boolLimit = true;
+            var boolWhere = true;
+            var boolGroupBy = true;
+
+            function escapeHtml(html) {
+                const map = {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                };
+                return html.replace(/[&<>"']/g, m => map[m]);
+            }
+
+        </script>
+        <script src="js/sql-create.js" type="text/javascript"></script>
+        <script src="js/sql-insert.js" type="text/javascript"></script>
+        <script src="js/sql-select.js" type="text/javascript"></script>
+        <script src="js/sql-update.js" type="text/javascript"></script>
+        <script src="js/sql-delete.js" type="text/javascript"></script>
+        <script>
+            function updateSqlCode() {
+                displayColumns();
+
+                indent = $('#indent').val();
+                tableName = $('#tableName').val();
+                otherTableName = $('#otherTableName').val();
+
+                // Limpa os códigos HTML
+                htmlCreate = '';
+                htmlInsert = '';
+                htmlSelect = '';
+                htmlUpdate = '';
+                htmlDelete = '';
+
+                getSQLCreate();
+                getSQLInsert();
+                getSQLSelect();
+                getSQLUpdate();
+                getSQLDelete();
+
+                // Converte em ASCII HTML
+                htmlCreate = escapeHtml(htmlCreate).replace(new RegExp('  ', 'g'), indent);
+                htmlInsert = escapeHtml(htmlInsert).replace(new RegExp('  ', 'g'), indent);
+                htmlSelect = escapeHtml(htmlSelect).replace(new RegExp('  ', 'g'), indent);
+                htmlUpdate = escapeHtml(htmlUpdate).replace(new RegExp('  ', 'g'), indent);
+                htmlDelete = escapeHtml(htmlDelete).replace(new RegExp('  ', 'g'), indent);
+
+                // Escreve na tela
+                $('#code-create .code-body').html(htmlCreate);
+                $('#code-insert .code-body').html(htmlInsert);
+                $('#code-select .code-body').html(htmlSelect);
+                $('#code-update .code-body').html(htmlUpdate);
+                $('#code-delete .code-body').html(htmlDelete);
+            }
+
+            function displayColumns() {
+                var columnListBody = $('#column-list-body');
+                columnListBody.empty(); // Limpa o conteúdo anterior
+
+                columns.forEach(function (column, index) {
+                    var columnItem = $('<div>').addClass('column-item');
+                    var columnName = $('<span>').text(column.name);
+                    var columnType = $('<span>').text(column.type);
+                    var columnSize = $('<span>').text(column.size);
+                    var deleteButton = $('<button>').text('Excluir').addClass('delete-button');
+
+                    // Ação ao clicar no botão Excluir
+                    deleteButton.click(function () {
+                        columns.splice(index, 1); // Remove a coluna do array
+                        displayColumns(); // Atualiza a exibição das colunas na tela
+                        updateSqlCode(); // Atualiza o código SQL exibido (implementação não fornecida aqui)
+                    });
+
+                    columnItem
+                            .append(columnName)
+                            .append(columnType)
+                            .append(columnSize)
+                            .append(deleteButton);
+
+                    columnListBody.append(columnItem);
+                });
+            }
+
+            function resetFields() {
+                $('#columnType').val('VARCHAR');
+                $('#columnSize').val(128);
+                $('#columnName').focus().val('title').select();
+            }
+
+            function addColumn() {
+                const columnName = $('#columnName').val();
+                const columnType = $('#columnType').val();
+                const columnSize = $('#columnSize').val();
+
+                if (!columnName || !columnType) {
+                    alert('Column Name and Type are required.');
+                    return;
+                }
+
+                const newColumn = {
+                    name: columnName,
+                    type: columnType.toUpperCase(),
+                    size: columnSize ? parseInt(columnSize) : null,
+                };
+
+                columns.push(newColumn);
+                $('#columnName').val('');
+                $('#columnSize').val('');
+
+                updateSqlCode();
+                resetFields();
+            }
+
+            $(function () {
+                updateSqlCode();
+                resetFields();
+
+                // Quando clicar nos links
+                $('.code-link').click(function (e) {
+                    e.preventDefault();
+                    var type = $(this).data('type');
+
+                    if (type === 'left-join') {
+                        boolLeftJoin = !boolLeftJoin;
+                    } else if (type === 'order-by') {
+                        boolOrderBy = !boolOrderBy;
+                    } else if (type === 'limit') {
+                        boolLimit = !boolLimit;
+                    } else if (type === 'where') {
+                        boolWhere = !boolWhere;
+                    } else if (type === 'group-by') {
+                        boolGroupBy = !boolGroupBy;
+                    }
+
+                    updateSqlCode();
+
+                    //            $(this).css({backgroundColor: '#ddd'});
+                    $(this).css('background-color', $(this).css('background-color') === 'rgb(221, 221, 221)' ? 'rgb(200, 200, 200)' : 'rgb(221, 221, 221)');
+
+                });
+
+                // Quando modificar alguma configuração
+                $('.input').keyup(function () {
+                    updateSqlCode();
+                });
+            });
+        </script>
+    </body>
+</html>

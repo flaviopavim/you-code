@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>YouCode</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <style>
+
+            body {
+                font-family: 'Arial', 'Sans Serif';
+                font-size: 14px;
+            }
+
+            .br {
+                clear: both;
+            }
+
+            .row {
+                display: block;
+                margin: 0 -15px;
+                box-sizing: border-box;
+            }
+
+            .col-15,
+            .col-20,
+            .col-50,
+            .col-80,
+            .col-85 {
+                display: block;
+                float: left;
+                padding: 0 15px;
+                box-sizing: border-box;
+            }
+            .col-15 {
+                width: 15%;
+            }
+            .col-20 {
+                width: 20%;
+            }
+            .col-50 {
+                width: 50%;
+            }
+            .col-80 {
+                width: 80%;
+            }
+            .col-85 {
+                width: 85%;
+            }
+
+            /*            .col-3 {
+                            display: block;
+                            width: 33.3333%;
+                            float: left;
+                            padding: 0 15px;
+                            box-sizing: border-box;
+                        }*/
+
+            .code-link {
+                display: table;
+                padding: 8px;
+                background-color: #eee;
+                margin-bottom: 1px;
+                text-decoration: none;
+                float: left;
+            }
+            .code-link:hover {
+                background-color: #ddd;
+            }
+
+            .code-link:hover,
+            .code-link:link,
+            .code-link:active,
+            .code-link {
+                color: #999;
+            }
+
+            .code-container {
+                margin: 20px 0;
+                border: 1px solid #ccc;
+                padding: 10px;
+            }
+            .code-title {
+                font-weight: bold;
+                margin-bottom: 15px;
+            }
+            .code-body {
+                white-space: pre-wrap;
+                font-family: monospace;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="col-20">
+            <a href="#" class="code-link" data-type="print">Print</a>
+            <a href="#" class="code-link" data-type="log">Log</a>
+            <a href="#" class="code-link" data-type="alert">Alert</a>
+            <div class="br"></div>
+            <a href="#" class="code-link" data-type="string">String</a>
+            <a href="#" class="code-link" data-type="int">Int</a>
+            <a href="#" class="code-link" data-type="double">Double</a>
+            <a href="#" class="code-link" data-type="float">Float</a>
+            <a href="#" class="code-link" data-type="char">Char</a>
+            <a href="#" class="code-link" data-type="bool">Bool</a>
+            <div class="br"></div>
+            <a href="#" class="code-link" data-type="if-else">If & else</a>
+            <a href="#" class="code-link" data-type="switch-case">Switch case</a>
+            <a href="#" class="code-link" data-type="try-catch">Try/Catch</a>
+            <div class="br"></div>
+            <a href="#" class="code-link" data-type="for">For (loop)</a>
+            <a href="#" class="code-link" data-type="foreach">Foreach</a>
+            <a href="#" class="code-link" data-type="json">JSON</a>
+            <a href="#" class="code-link" data-type="while">While</a>
+            <div class="br"></div>
+            <a href="#" class="code-link" data-type="widget">Widget</a>
+            <div class="br"></div>
+            <a href="#" class="code-link" data-type="function">Function</a>
+            <a href="#" class="code-link" data-type="class">Class</a>
+            <div class="br"></div>
+            <a href="#" class="code-link" data-type="get">Get</a>
+            <a href="#" class="code-link" data-type="post">Post</a>
+
+
+            <div class="br" style="height: 30px;"></div>
+
+            <div class="row">
+                <div class="col-20">
+                    Iteration
+                </div>
+                <div class="col-80">
+                    <!--Config-->
+                    <input type="text" class="input" id="indexName" value="i">
+                </div>
+            </div>
+
+            <!--Names-->
+            <div class="row">
+                <div class="col-20">
+                    Text
+                </div>
+                <div class="col-80">
+                    <input type="text" class="input" id="exampleText" value="Hello World">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-20">
+                    Var
+                </div>
+                <div class="col-80">
+                    <input type="text" class="input" id="varName" value="varName">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-20">
+                    Function
+                </div>
+                <div class="col-80">
+                    <input type="text" class="input" id="functionName" value="functionName">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-20">
+                    Class
+                </div>
+                <div class="col-80">
+                    <input type="text" class="input" id="className" value="className">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-20">
+                    Indent
+                </div>
+                <div class="col-80">
+                    <input type="text" class="input" id="indent" value="    ">
+                </div>
+            </div>
+        </div>
+        <div class="col-80">
+            <div class="col-50">
+                <div id="code-php" class="code-container">
+                    <div class="code-title">PHP</div>
+                    <div class="code-body"></div>
+                </div>
+
+                <div id="code-javascript" class="code-container">
+                    <div class="code-title">JavaScript</div>
+                    <div class="code-body"></div>
+                </div>
+
+                <div id="code-dart" class="code-container">
+                    <div class="code-title">Dart</div>
+                    <div class="code-body"></div>
+                </div>
+
+                <div id="code-cpp" class="code-container">
+                    <div class="code-title">C++</div>
+                    <div class="code-body"></div>
+                </div>
+            </div>
+
+            <div class="col-50">
+                <div id="code-csharp" class="code-container">
+                    <div class="code-title">C#</div>
+                    <div class="code-body"></div>
+                </div>
+
+                <div id="code-python" class="code-container">
+                    <div class="code-title">Python</div>
+                    <div class="code-body"></div>
+                </div>
+
+                <div id="code-java" class="code-container">
+                    <div class="code-title">Java</div>
+                    <div class="code-body"></div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+
+            //linguagens
+            var htmlPHP;
+            var htmlJavascript;
+            var htmlDart;
+            var htmlCpp;
+            var htmlCsharp;
+            var htmlPython;
+            var htmlJava;
+
+            //configurações
+            var exampleText;
+            var functionName;
+            var className;
+            var indexName;
+            var varName;
+            var ident;
+
+            function escapeHtml(html) {
+                const map = {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                };
+                return html.replace(/[&<>"']/g, m => map[m]);
+            }
+
+        </script>
+        <script src="js/print.js"></script>
+        <script src="js/log.js"></script>
+        <script src="js/alert.js"></script>
+        <script src="js/string.js"></script>
+        <script src="js/int.js"></script>
+        <script src="js/double.js"></script>
+        <script src="js/float.js"></script>
+        <script src="js/char.js"></script>
+        <script src="js/bool.js"></script>
+        <script src="js/switch-case.js"></script>
+        <script src="js/if-else.js"></script>
+        <script src="js/for.js"></script>
+        <script src="js/foreach.js"></script>
+        <script src="js/json.js"></script>
+        <script src="js/while.js"></script>
+        <script src="js/try-catch.js"></script>
+        <script src="js/function.js"></script>
+        <script src="js/class.js"></script>
+        <script src="js/get.js"></script>
+        <script src="js/post.js"></script>
+        <script src="js/widget.js"></script>
+        <script>
+
+            var actualType = '';
+
+            function code(type) {
+
+                actualType = type;
+
+                $('#indexName').closest('.row').hide();
+                $('#exampleText').closest('.row').hide();
+                $('#varName').closest('.row').hide();
+                $('#functionName').closest('.row').hide();
+                $('#className').closest('.row').hide();
+
+                if (
+                    type == 'print' ||
+                    type == 'log' ||
+                    type == 'alert' ||
+                    type == 'string'
+                ) {
+                    $('#exampleText').closest('.row').show();
+                }
+
+                if (
+                    type == 'string' ||
+                    type == 'int' ||
+                    type == 'double' ||
+                    type == 'float' ||
+                    type == 'char' ||
+                    type == 'bool' ||
+                    type == 'if-else' ||
+                    type == 'switch-case' ||
+                    type == 'try-catch' ||
+                    type == 'foreach'
+                ) {
+                    $('#varName').closest('.row').show();
+                }
+
+
+
+                if (
+                    type == 'function'
+                ) {
+                    $('#functionName').closest('.row').show();
+                }
+                
+                
+                if (
+                    type == 'widget' ||
+                    type == 'function' ||
+                    type == 'class'
+                ) {
+                    $('#className').closest('.row').show();
+                }
+
+                if (
+                    type == 'for' ||
+                    type == 'foreach' ||
+                    type == 'while'
+                ) {
+                    $('#indexName').closest('.row').show();
+                }
+
+
+
+                exampleText = $('#exampleText').val();
+                functionName = $('#functionName').val();
+                className = $('#className').val();
+                indexName = $('#indexName').val();
+                varName = $('#varName').val();
+                indent = $('#indent').val();
+
+                //limpa os html's
+                htmlPHP = '';
+                htmlJavascript = '';
+                htmlDart = '';
+                htmlCpp = '';
+                htmlCsharp = '';
+                htmlPython = '';
+                htmlJava = '';
+
+                //header
+                htmlPHP = '<?php\n\n';
+                htmlJavascript = '<script>\n\n  ';
+
+                if (
+                    type != 'function' &&
+                    type != 'class' &&
+                    type != 'get' &&
+                    type != 'post' &&
+                    type != 'widget'
+                ) {
+                    htmlDart = 'void main() {\n\n  ';
+                    htmlCpp = '#include <iostream>\n\nint main() {\n\n  ';
+                    htmlCsharp = 'using System;\n\npublic class ' + className + ' {\n\n  public static void Main() {\n\n    ';
+                    htmlJava = 'public class ' + className + ' {\n\n  public static void main(String[] args) {\n\n    ';
+                }
+
+                if (type === 'print') {
+                    getPrint();
+                } else if (type === 'log') {
+                    getLog();
+                } else if (type === 'alert') {
+                    getAlert();
+                } else if (type === 'string') {
+                    getString();
+                } else if (type === 'int') {
+                    getInt();
+                } else if (type === 'double') {
+                    getDouble();
+                } else if (type === 'float') {
+                    getFloat();
+                } else if (type === 'char') {
+                    getChar();
+                } else if (type === 'bool') {
+                    getBool();
+                } else if (type === 'switch-case') {
+                    getSwitchCase();
+                } else if (type === 'if-else') {
+                    getIfElse();
+                } else if (type === 'for') {
+                    getFor();
+                } else if (type === 'foreach') {
+                    getForeach();
+                } else if (type === 'json') {
+                    getJson();
+                } else if (type === 'while') {
+                    getWhile();
+                } else if (type === 'try-catch') {
+                    getTryCatch();
+                } else if (type === 'function') {
+                    getFunction();
+                } else if (type === 'class') {
+                    getClass();
+                } else if (type === 'get') {
+                    getGet();
+                } else if (type === 'post') {
+                    getPost();
+                } else if (type == 'widget') {
+                    getWidget();
+                }
+
+                if (
+                        type != 'function' &&
+                        type != 'class' &&
+                        type != 'get' &&
+                        type != 'post' &&
+                        type != 'widget'
+                        ) {
+                    htmlDart += '\n\n}';
+                    htmlCpp += '\n\n  return 0;\n\n}';
+                    htmlCsharp += '\n\n  }\n\n}';
+                    htmlJava += '\n\n  }\n\n}';
+                }
+
+                //footer
+                htmlPHP += '\n\n?>';
+                htmlJavascript += '\n\n<\/script>';
+
+                //converte em ascii html
+                htmlPHP = escapeHtml(htmlPHP);
+                htmlJavascript = escapeHtml(htmlJavascript);
+                htmlDart = escapeHtml(htmlDart);
+                htmlCpp = escapeHtml(htmlCpp);
+                htmlCsharp = escapeHtml(htmlCsharp);
+                htmlPython = escapeHtml(htmlPython);
+                htmlJava = escapeHtml(htmlJava);
+
+                htmlPHP = htmlPHP.replace(new RegExp('  ', 'g'), indent);
+                htmlJavascript = htmlJavascript.replace(new RegExp('  ', 'g'), indent);
+                htmlDart = htmlDart.replace(new RegExp('  ', 'g'), indent);
+                htmlCpp = htmlCpp.replace(new RegExp('  ', 'g'), indent);
+                htmlCsharp = htmlCsharp.replace(new RegExp('  ', 'g'), indent);
+                htmlPython = htmlPython.replace(new RegExp('  ', 'g'), indent);
+                htmlJava = htmlJava.replace(new RegExp('  ', 'g'), indent);
+
+                //escreve na tela
+                $('#code-php .code-body').html(htmlPHP);
+                $('#code-javascript .code-body').html(htmlJavascript);
+                $('#code-dart .code-body').html(htmlDart);
+                $('#code-cpp .code-body').html(htmlCpp);
+                $('#code-csharp .code-body').html(htmlCsharp);
+                $('#code-python .code-body').html(htmlPython);
+                $('#code-java .code-body').html(htmlJava);
+            }
+
+
+
+            $(function () {
+
+                //iniciar com print
+                code('print');
+
+                //quando clicar nos links
+                $('.code-link').click(function (e) {
+                    e.preventDefault();
+                    var type = $(this).data('type');
+
+                    $('#varName').val('varName');
+                    
+                    //values
+                    if (type == 'double' || type == 'float') {
+                        $('#varName').val('pi');
+                    } else if (type == 'switch-case') {
+                        $('#varName').val('day');
+                    } else if (type == 'if-else' || type == 'try-catch') {
+                        $('#varName').val('age');
+                    } else if (type == 'foreach') {
+                        $('#varName').val('myArray');
+
+                    }
+
+                    code(type);
+                    $('.code-link').css({backgroundColor: '#eee'});
+                    $(this).css({backgroundColor: '#ddd'});
+
+                });
+
+                //quando modificar alguma configuração
+                $('.input').keyup(function () {
+                    code(actualType);
+                });
+
+                function decodeHtmlEntities(str) {
+                    var txt = document.createElement("textarea");
+                    txt.innerHTML = str;
+                    return txt.value;
+                }
+
+                $('.code-body').click(function () {
+                    var content = decodeHtmlEntities($(this).html());
+
+                    // Criar um elemento temporário de textarea para manter a formatação
+                    var tempTextarea = $("<textarea>");
+                    $("body").append(tempTextarea);
+                    tempTextarea.val(content).select();
+                    document.execCommand("copy");
+                    tempTextarea.remove();
+
+                    alert("Conteúdo copiado para a área de transferência!"); // Opcional: mostra um alerta confirmando a cópia
+                });
+
+            });
+        </script>
+    </body>
+</html>

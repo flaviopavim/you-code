@@ -1,0 +1,101 @@
+function getClass() {
+    
+    htmlPHP += 'class Person {\n\n';
+    htmlPHP += '  public $name;\n';
+    htmlPHP += '  public $age;\n\n';
+    htmlPHP += '  public function __construct($name, $age) {\n';
+    htmlPHP += '    $this->name = $name;\n';
+    htmlPHP += '    $this->age = $age;\n';
+    htmlPHP += '  }\n\n';
+    htmlPHP += '  public function greet() {\n';
+    htmlPHP += '    return "Hello, my name is " . $this->name . " and I am " . $this->age . " years old.";\n';
+    htmlPHP += '  }\n\n';
+    htmlPHP += '}\n\n';
+    htmlPHP += '$person = new Person("John", 30);\n';
+    htmlPHP += 'echo $person->greet();';
+
+    htmlJavascript += 'class Person {\n\n';
+    htmlJavascript += '    constructor(name, age) {\n';
+    htmlJavascript += '      this.name = name;\n';
+    htmlJavascript += '      this.age = age;\n\n';
+    htmlJavascript += '    }\n\n';
+    htmlJavascript += '    greet() {\n';
+    htmlJavascript += '       return `Hello, my name is ${this.name} and I am ${this.age} years old.`;\n';
+    htmlJavascript += '    }\n\n';
+    htmlJavascript += '  }\n\n';
+    htmlJavascript += '  var person = new Person("John", 30);\n';
+    htmlJavascript += '  console.log(person.greet());\n';
+
+    htmlDart += 'class Person {\n\n';
+    htmlDart += '  String name;\n';
+    htmlDart += '  int age;\n';
+    htmlDart += '  Person(this.name, this.age);\n';
+    htmlDart += '  String greet() => "Hello, my name is $name and I am $age years old.";\n\n';
+    htmlDart += '}\n\n';
+    htmlDart += 'void main() {\n\n';
+    htmlDart += '  var person = Person("John", 30);\n';
+    htmlDart += '  print(person.greet());\n\n';
+    htmlDart += '}';
+
+    htmlCpp += 'class Person {\n\n';
+    htmlCpp += '  public:\n';
+    htmlCpp += '    string name;\n';
+    htmlCpp += '    int age;\n\n';
+    htmlCpp += '  Person(string name, int age) {\n';
+    htmlCpp += '    this->name = name;\n';
+    htmlCpp += '    this->age = age;\n';
+    htmlCpp += '  }\n\n';
+    htmlCpp += '  string greet() {\n';
+    htmlCpp += '    return "Hello, my name is " + name + " and I am " + to_string(age) + " years old.";\n';
+    htmlCpp += '  }\n\n';
+    htmlCpp += '}\n\n';
+    htmlCpp += 'int main() {\n\n';
+    htmlCpp += '  Person person("John", 30);\n';
+    htmlCpp += '  cout << person.greet() << endl;\n';
+    htmlCpp += '  return 0;\n\n';
+    htmlCpp += '}';
+
+    htmlCsharp += 'using System;\n\n';
+    htmlCsharp += 'class Person {\n\n';
+    htmlCsharp += '  public string Name { get; set; }\n';
+    htmlCsharp += '  public int Age { get; set; }\n\n';
+    htmlCsharp += '  public Person(string name, int age) {\n';
+    htmlCsharp += '    Name = name;\n';
+    htmlCsharp += '    Age = age;\n\n';
+    htmlCsharp += '  }\n\n';
+    htmlCsharp += '  public string Greet() {\n';
+    htmlCsharp += '    return $"Hello, my name is {Name} and I am {Age} years old.";\n';
+    htmlCsharp += '  }\n\n';
+    htmlCsharp += '}\n\n';
+    htmlCsharp += 'class Program {\n\n';
+    htmlCsharp += '  static void Main() {\n';
+    htmlCsharp += '    Person person = new Person("John", 30);\n';
+    htmlCsharp += '    Console.WriteLine(person.Greet());\n';
+    htmlCsharp += '  }\n\n';
+    htmlCsharp += '}';
+
+    htmlPython += 'class Person:\n\n';
+    htmlPython += '  def __init__(self, name, age):\n';
+    htmlPython += '    self.name = name\n';
+    htmlPython += '    self.age = age\n\n';
+    htmlPython += '  def greet(self):\n';
+    htmlPython += '    return f"Hello, my name is {self.name} and I am {self.age} years old."\n\n';
+    htmlPython += 'person = Person("John", 30)\n';
+    htmlPython += 'print(person.greet())';
+
+    htmlJava += 'public class Person {\n\n';
+    htmlJava += '  private String name;\n';
+    htmlJava += '  private int age;\n';
+    htmlJava += '  public Person(String name, int age) {\n';
+    htmlJava += '    this.name = name;\n';
+    htmlJava += '    this.age = age;\n\n';
+    htmlJava += '  }\n\n';
+    htmlJava += '  public String greet() {\n';
+    htmlJava += '    return "Hello, my name is " + name + " and I am " + age + " years old.";\n';
+    htmlJava += '  }\n\n';
+    htmlJava += '  public static void main(String[] args) {\n';
+    htmlJava += '    Person person = new Person("John", 30);\n';
+    htmlJava += '    System.out.println(person.greet());\n';
+    htmlJava += '  }\n\n';
+    htmlJava += '}';
+}

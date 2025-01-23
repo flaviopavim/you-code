@@ -1,0 +1,101 @@
+
+function getGet() {
+    htmlPHP += '$url = "https://api.example.com/data";\n';
+    htmlPHP += '$response = file_get_contents($url);\n';
+    htmlPHP += 'echo $response;';
+
+    htmlJavascript += 'const url = "https://api.example.com/data";\n';
+    htmlJavascript += '  fetch(url)\n';
+    htmlJavascript += '    .then(response => response.json())\n';
+    htmlJavascript += '    .then(data => console.log(data))\n';
+    htmlJavascript += '    .catch(error => console.error("Error fetching data:", error));';
+
+    htmlDart += 'import \'dart:convert\';\n';
+    htmlDart += 'import \'package:http/http.dart\' as http;\n\n';
+    htmlDart += 'void main() async {\n\n';
+    htmlDart += '  final url = Uri.parse(\'https://api.example.com/data\');\n';
+    htmlDart += '  final response = await http.get(url);\n\n';
+    htmlDart += '  if (response.statusCode == 200) {\n';
+    htmlDart += '    var data = jsonDecode(response.body);\n';
+    htmlDart += '    print(data);\n';
+    htmlDart += '  } else {\n';
+    htmlDart += '    print(\'Failed to load data: ${response.statusCode}\');\n';
+    htmlDart += '  }\n\n';
+    htmlDart += '}\n';
+
+    htmlCpp += '#include <iostream>\n\n';
+    htmlCpp += '#include <curl/curl.h>\n\n';
+    htmlCpp += 'int main() {\n\n';
+    htmlCpp += '  CURL* curl;\n';
+    htmlCpp += '  CURLcode res;\n\n';
+    htmlCpp += '  curl_global_init(CURL_GLOBAL_ALL);\n';
+    htmlCpp += '  curl = curl_easy_init();\n';
+    htmlCpp += '  if (curl) {\n';
+    htmlCpp += '    curl_easy_setopt(curl, CURLOPT_URL, "https://api.example.com/data");\n';
+    htmlCpp += '    res = curl_easy_perform(curl);\n';
+    htmlCpp += '    if (res == CURLE_OK)\n';
+    htmlCpp += '      std::cout << "Data retrieved successfully" << std::endl;\n';
+    htmlCpp += '    else\n';
+    htmlCpp += '      std::cerr << "Failed to retrieve data: " << curl_easy_strerror(res) << std::endl;\n';
+    htmlCpp += '    curl_easy_cleanup(curl);\n';
+    htmlCpp += '  }\n';
+    htmlCpp += '  curl_global_cleanup();\n';
+    htmlCpp += '  return 0;\n\n';
+    htmlCpp += '}\n';
+
+    htmlCsharp += 'using System;\n';
+    htmlCsharp += 'using System.Net.Http;\n\n';
+    htmlCsharp += 'class Program\n';
+    htmlCsharp += '{\n';
+    htmlCsharp += '  static async System.Threading.Tasks.Task Main(string[] args)\n';
+    htmlCsharp += '  {\n';
+    htmlCsharp += '    using HttpClient client = new HttpClient();\n';
+    htmlCsharp += '    HttpResponseMessage response = await client.GetAsync("https://api.example.com/data");\n';
+    htmlCsharp += '    if (response.IsSuccessStatusCode)\n';
+    htmlCsharp += '    {\n';
+    htmlCsharp += '      string responseBody = await response.Content.ReadAsStringAsync();\n';
+    htmlCsharp += '      Console.WriteLine(responseBody);\n';
+    htmlCsharp += '    }\n';
+    htmlCsharp += '    else\n';
+    htmlCsharp += '    {\n';
+    htmlCsharp += '      Console.WriteLine($"Failed to fetch data: {response.StatusCode}");\n';
+    htmlCsharp += '    }\n';
+    htmlCsharp += '  }\n';
+    htmlCsharp += '}\n';
+
+    htmlPython += 'import requests\n\n';
+    htmlPython += 'url = "https://api.example.com/data"\n';
+    htmlPython += 'try:\n';
+    htmlPython += '  response = requests.get(url)\n';
+    htmlPython += '  response.raise_for_status()\n';
+    htmlPython += '  print(response.text)\n';
+    htmlPython += 'except requests.exceptions.RequestException as e:\n';
+    htmlPython += '  print(f"Error fetching data: {e}")\n';
+
+    htmlJava += 'import java.net.HttpURLConnection;\n';
+    htmlJava += 'import java.net.URL;\n';
+    htmlJava += 'import java.io.BufferedReader;\n';
+    htmlJava += 'import java.io.InputStreamReader;\n';
+    htmlJava += 'import java.io.IOException;\n\n';
+    htmlJava += 'public class Main {\n';
+    htmlJava += '  public static void main(String[] args) throws IOException {\n';
+    htmlJava += '    URL url = new URL("https://api.example.com/data");\n';
+    htmlJava += '    HttpURLConnection conn = (HttpURLConnection) url.openConnection();\n';
+    htmlJava += '    conn.setRequestMethod("GET");\n';
+    htmlJava += '    int responseCode = conn.getResponseCode();\n';
+    htmlJava += '    if (responseCode == HttpURLConnection.HTTP_OK) {\n';
+    htmlJava += '      BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));\n';
+    htmlJava += '      String inputLine;\n';
+    htmlJava += '      StringBuffer response = new StringBuffer();\n';
+    htmlJava += '      while ((inputLine = in.readLine()) != null) {\n';
+    htmlJava += '        response.append(inputLine);\n';
+    htmlJava += '      }\n';
+    htmlJava += '      in.close();\n';
+    htmlJava += '      System.out.println(response.toString());\n';
+    htmlJava += '    } else {\n';
+    htmlJava += '      System.out.println("Failed to fetch data: " + responseCode);\n';
+    htmlJava += '    }\n';
+    htmlJava += '    conn.disconnect();\n';
+    htmlJava += '  }\n';
+    htmlJava += '}\n';
+}
